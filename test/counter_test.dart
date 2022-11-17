@@ -2,8 +2,6 @@ import 'package:dz_bloc/bloc/CounterBloc/counter_bloc.dart';
 import 'package:test/test.dart';
 import 'package:bloc_test/bloc_test.dart';
 
-class MockCounterBloc extends MockBloc<CounterEvent, int> implements CounterBloc {}
-
 void main()
 {
   mainBloc();
@@ -30,6 +28,16 @@ void  mainBloc()
       build: () => CounterBloc(),
       act: (bloc) => bloc.add(CounterDecrement()),
       expect: () => const <int>[-1],
+    );
+
+    blocTest<CounterBloc, int>(
+      "one increment and one decrement",
+      build: () => CounterBloc(),
+      act: (bloc) {
+        bloc.add(CounterIncrement());
+        bloc.add(CounterDecrement());
+      },
+      expect: () => const <int>[1, 0],
     );
 
     blocTest<CounterBloc, int>(
